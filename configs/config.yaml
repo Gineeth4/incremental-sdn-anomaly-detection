@@ -1,0 +1,18 @@
+# configs/config.yaml
+external_file: "data/external/Tuesday-WorkingHours.pcap_ISCX.csv"
+
+adapter:
+  use_first_csv_if_not_specified: true
+
+training:
+  base_fraction: 0.25
+  batch_size: 500
+  full_features: true   # <--- set true to use the full CIC feature set (recommended)
+  random_state: 42
+
+sampling:
+  enabled: false
+  sample_size: 20000
+  balanced: false
+  benign_fraction: 0.5
+  random_state: 42

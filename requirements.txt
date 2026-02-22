@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+loguru
+joblib
+pyyaml
+tqdm
