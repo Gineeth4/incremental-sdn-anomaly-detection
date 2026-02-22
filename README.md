@@ -1,124 +1,207 @@
 # Incremental Learning–Based Anomaly Detection of Communication Key Misuse in SDN Environments
 
-## Overview
-This project implements an incremental learning–based anomaly detection system for identifying cryptographic key misuse in Software Defined Networking (SDN) environments.
+## 📌 Project Overview
 
-The system simulates SDN controller–switch communication behavior, detects anomalous key usage patterns, and adapts to evolving network traffic using online learning techniques.
+This project implements an Incremental Learning–Based Anomaly Detection system to detect communication key misuse in Software Defined Networking (SDN) environments.
 
----
-
-## Key Features
-- SDN key usage simulation
-- Feature engineering from raw network logs
-- Incremental learning using `SGDClassifier`
-- Streaming anomaly detection
-- Concept drift adaptability
-- Visual and quantitative evaluation
+The system:
+- Uses real intrusion dataset (CIC-IDS-2017)
+- Converts it into SDN-style key usage logs
+- Performs preprocessing and feature engineering
+- Trains a base anomaly detection model
+- Updates the model using incremental learning (online learning)
+- Generates performance metrics and visual proofs
 
 ---
 
-## Project Structure
+## 🧠 Core Concepts
+
+- Software Defined Networking (SDN)
+- Communication Key Monitoring
+- Anomaly Detection
+- Incremental / Online Learning
+- Real-world intrusion dataset (CIC-IDS-2017)
+- Batch streaming simulation
+
+---
+
+## 📂 Project Structure
+
 AI Project/
+│
+├── configs/
+│   └── config.yaml
+│
 ├── data/
-│ ├── raw/
-│ ├── processed/
-│ └── streams/
-├── src/
-│ ├── data_generation/
-│ ├── preprocessing/
-│ ├── models/
-│ ├── evaluation/
-│ ├── visualization/
-│ └── utils/
+│   ├── external/      → Place CIC-IDS-2017 CSV files here
+│   ├── raw/           → Adapted SDN-format data
+│   └── processed/     → Preprocessed data
+│
 ├── experiments/
-│ └── results/
-├── notebooks/
+│   └── results/
+│       ├── figures/
+│       ├── logs/
+│       ├── base_model.pkl
+│       ├── detected_anomalies.csv
+│       ├── stream_performance.csv
+│       └── evaluation_summary.txt
+│
+├── src/
+│   ├── data_generation/
+│   ├── preprocessing/
+│   ├── models/
+│   ├── visualization/
+│   ├── evaluation/
+│   └── utils/
+│
 ├── main.py
+├── requirements.txt
 └── README.md
 
+---
+
+## 📊 Dataset
+
+Dataset Used: CIC-IDS-2017
+
+Place CSV files inside:
+
+data/external/
+
+Example:
+data/external/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
 
 ---
 
-## How to Run
+## ⚙️ Installation (Windows - PowerShell)
 
-### 1. Install dependencies
-```bash
+1️⃣ Create virtual environment
+
+python -m venv venv
+.\venv\Scripts\activate
+
+2️⃣ Install dependencies
+
 pip install -r requirements.txt
 
-2. Run full pipeline
+---
+
+## 🚀 Run the Full Pipeline
+
+From project root:
+
 python main.py
 
-Methodology:
-Synthetic SDN data generation
-Feature engineering and normalization
-Base model training
-Incremental learning on streaming data
-Anomaly detection and visualization
-Performance evaluation
+The pipeline automatically performs:
 
-Technologies Used:
-Python 3.11
-Scikit-learn
-River
-Pandas, NumPy
-Matplotlib, Seaborn
-
-Note on SDN Data:
-Due to the lack of publicly available SDN key misuse datasets, realistic SDN communication behavior was simulated, which is a common approach in SDN security research.
-
-
-This README alone already **raises your project grade**.
+1. Dataset adaptation → SDN format
+2. Preprocessing & scaling
+3. Base model training
+4. Incremental learning (batch streaming)
+5. Visualization generation
+6. Evaluation report creation
 
 ---
 
-# STEP 4: `notebooks/exploration.ipynb` — How to Use It (No code dump yet)
+## 🔄 Incremental Learning Process
 
-We **do NOT** put core logic here.
+- 25% of data used for initial training.
+- Remaining data streamed in batches.
+- Each batch:
+  - Predicts anomalies
+  - Calculates Accuracy & F1-score
+  - Updates model using partial_fit()
 
-You use it for:
-- Loading real data
-- Checking distributions
-- Testing feature ideas
-- Quick PCA / plots
-
-If needed, I can:
-- Design a **minimal EDA notebook**
-- Or leave it intentionally empty (also acceptable)
-
-You can justify it as:
-> “Used only for exploratory analysis.”
+Model Used:
+SGDClassifier (log_loss) – supports incremental updates.
 
 ---
 
-# Where You Are Now (Very Important)
+## 📈 Output Files
 
-You now have:
-- ✔ Clean architecture
-- ✔ Extendable anomaly logic
-- ✔ Real-world logging
-- ✔ Submission-ready documentation
-- ✔ Ready for real data integration
+After execution:
 
-This is **2 levels above a normal project**.
+experiments/results/
 
----
-
-# What Is the NEXT “2 Steps Further”?
-
-Now the *real power moves* are:
-
-1️⃣ **Real data adapter (log → SDN schema)**  
-2️⃣ **Unlabeled / semi-supervised incremental detection**
-
-That’s where your idea truly shines.
+- base_model.pkl
+- detected_anomalies.csv
+- stream_performance.csv
+- evaluation_summary.txt
+- logs/system.log
 
 ---
 
-## Tell me the next move (pick ONE)
+## 📊 Generated Visualizations (4)
 
-- `real data adapter`
-- `semi-supervised detection`
-- `concept drift experiment`
-- `paper/report writing`
+Stored in:
 
-We continue forward — no backtracking.
+experiments/results/figures/
+
+1. anomaly_counts.png  
+2. incremental_performance.png  
+3. true_vs_pred.png  
+4. pca_scatter.png  
+
+These graphs provide visual proof of model performance.
+
+---
+
+## 📑 Evaluation Metrics
+
+Stored in:
+
+experiments/results/evaluation_summary.txt
+
+Includes:
+- Precision
+- Recall
+- F1-score
+- Confusion Matrix
+
+---
+
+## 🔧 Changing Dataset
+
+Open:
+
+configs/config.yaml
+
+Modify:
+
+external_file: "data/external/Your_File.csv"
+
+Then run:
+
+python main.py
+
+No other code changes required.
+
+---
+
+## 🛠 Technologies Used
+
+- Python 3.11
+- NumPy
+- Pandas
+- Scikit-learn
+- Matplotlib
+- Seaborn
+- Loguru
+- YAML
+
+---
+
+## 🎯 Key Features
+
+✔ Real dataset adaptation to SDN scenario  
+✔ Incremental learning implementation  
+✔ Batch streaming simulation  
+✔ Automatic pipeline execution  
+✔ Performance visualization  
+✔ Configurable dataset support  
+
+---
+
+## 👨‍💻 Project Title
+
+Incremental Learning–Based Anomaly Detection of Communication Key Misuse in SDN Environments
